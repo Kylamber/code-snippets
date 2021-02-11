@@ -67,7 +67,7 @@ def getURLs():
   return acquired_urls
 ```
 
-## How it works:
+## How it works
 This program works by taking the tags and the contents between tags into an ordered list using these lines of code in the `parseHTML` method.
 ```python
 for char in raw_html:
@@ -88,3 +88,6 @@ at the end, the list should look something like this,
 ['<body>', '<div class="test">', 'Contents inside the div', '<div />', ..., '<body />']
 ```
 This orderly manner ease the finding of tags and its contents. The `find` method will search for the beginning and end of a tag. If `get_all` is set to `True`, all of the tags that matches will be listed. 
+
+## Contributions
+Contributions are greatly appreciated whether it is to improve the parsing or adding more useful methods into the parser.
