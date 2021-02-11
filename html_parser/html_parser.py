@@ -1,53 +1,55 @@
 import requests
 
-class htmlParser:
-  def __init__(self, url):
+class HtmlParser:
+  def __init__(self, url, verbose = 0):
     self.url = url
-    self.logPrefix = '[HTMLParser]' # Has no significant use, only for decorations
-    self.parsedHTML = self.parseHTML()
+    self.verbose = verbose
+    self.log_prefix = '[HTMLParser]' # For logs
+    self.parsed_html = self.parseHTML()
   
   def parseHTML(self):
     try:
       get = requests.get(self.url, timeout=5)
     except Exception as e:
-      print(f'{self.logPrefix} {e}')
+      if self.verbose:
+        print(f'{self.log_prefix} {e}')
       return '', '', []
 
-    baseURL = '/'.join(self.url.split('/')[:3])
-    rawHTML = get.text
-    processedHTML = []
+    base_url = '/'.join(self.url.split('/')[:3])
+    raw_html = get.text
+    processed_html = []
     
-    tempText = ''
+    temp_text = ''
 
-    for char in rawHTML:
+    for char in raw_html:
       if char == '<':
-        processedHTML.append(tempText)
-        tempText = ''
-        tempText += char
+        processed_html.append(temp_text)
+        temp_text = ''
+        temp_text += char
       elif char == '>':
-        tempText += char
-        processedHTML.append(tempText)
-        tempText = ''
+        temp_text += char
+        processed_html.append(temp_text)
+        temp_text = ''
       else:
-        tempText += char
+        temp_text += char
     
-    return baseURL, rawHTML, processedHTML
+    return base_url, raw_html, processed_html
   
-  def find(self, tag, getAll = False):
+  def findTag(self, tag, get_all = False):
     found = []
-    startEnd = []
-    processedHTML = self.parsedHTML[2]
-    for i, thing in enumerate(processedHTML):
+    start_end = []
+    processed_html = self.parsed_html[2]
+    for i, thing in enumerate(processed_html):
       if f'<{tag} ' in thing or f'<{tag}>' in thing or f'</{tag}>' in thing:
         if '/>' in thing:
           found.append([thing])
-          startEnd = []
+          start_end = []
           continue
-        startEnd.append(i)
-      if len(startEnd) == 2:
-        found.append(processedHTML[startEnd[0]:startEnd[1] + 1])
-        startEnd = []
-        if not getAll:
+        start_end.append(i)
+      if len(start_end) == 2:
+        found.append(processed_html[start_end[0]:start_end[1] + 1])
+        start_end = []
+        if not get_all:
           break
     
     return found
