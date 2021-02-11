@@ -1,27 +1,5 @@
 # HTML Parser
 
-## How it works:
-This program works by taking the tags and the contents between tags into an ordered list using these lines of code in the `parseHTML` method.
-```python
-for char in raw_html:
-  if char == '<':
-    processed_html.append(temp_text)
-    temp_text = ''
-    temp_text += char
-  elif char == '>'
-    temp_text += char
-    processed_html.append(temp_text)
-    temp_text = ''
-  else:
-    temp_text += char
-```
-at the end, the list should look something like this,
-```python
->>> processed_html
-['<body>', '<div class="test">', 'Contents inside the div', '<div />', ..., '<body />']
-```
-This orderly manner ease the finding of tags and its contents. The `find` method will search for the beginning and end of a tag. If `get_all` is set to `True`, all of the tags that matches will be listed. 
-
 ## Example Usage
 ### Using the find method
 ```python
@@ -88,3 +66,25 @@ def getURLs():
         acquired_urls.add(param)
   return acquired_urls
 ```
+
+## How it works:
+This program works by taking the tags and the contents between tags into an ordered list using these lines of code in the `parseHTML` method.
+```python
+for char in raw_html:
+  if char == '<':
+    processed_html.append(temp_text)
+    temp_text = ''
+    temp_text += char
+  elif char == '>'
+    temp_text += char
+    processed_html.append(temp_text)
+    temp_text = ''
+  else:
+    temp_text += char
+```
+at the end, the list should look something like this,
+```python
+>>> processed_html
+['<body>', '<div class="test">', 'Contents inside the div', '<div />', ..., '<body />']
+```
+This orderly manner ease the finding of tags and its contents. The `find` method will search for the beginning and end of a tag. If `get_all` is set to `True`, all of the tags that matches will be listed. 
